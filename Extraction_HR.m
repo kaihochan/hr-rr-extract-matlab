@@ -13,27 +13,51 @@ Fs = L/30;
 % sample period
 T = 1/Fs;
 
+% bandpass filter for the sensor signal
+% acceptance range 0.83Hz to 2.5Hz
+% sampling range 5kHz or 1kHz, depends on data array
+senFlt = bandpass(senRaw, [0.83 2.5], Fs);
+
 % show raw data
-figure; tiledlayout(2,1); 
+figure; tiledlayout(3,1); 
 nexttile;
 plot(senRaw); title('Sensor Raw Data');
+nexttile;
+plot(senFlt); title('Sensor Filtered Data');
 nexttile;
 plot(refRaw); title('Reference Raw Data');
 
 % FFT on reference signal
-Y = fft(refRaw);
-P2 = abs(Y/L);
-P1 = P2(1:L/2+1);
-P1(2:end-1) = 2*P1(2:end-1);
-f = Fs*(0:(L/2))/L;
+refY = fft(refRaw);
+refP2 = abs(refY/L);
+refP1 = refP2(1:L/2+1);
+refP1(2:end-1) = 2*refP1(2:end-1);
+reff = Fs*(0:(L/2))/L;
+
+% FFT on filtered sensor signal
+senY = fft(senFlt);
+senP2 = abs(senY/L);
+senP1 = senP2(1:L/2+1);
+senP1(2:end-1) = 2*senP1(2:end-1);
+senf = Fs*(0:(L/2))/L;
 
 % show amplitude spectrum
-figure; plot(f,P1) 
+figure; tiledlayout(2,1); 
+nexttile; plot(reff,refP1);
 title("Single-Sided Amplitude Spectrum of Reference Raw Signal")
+xlabel("f (Hz)")
+ylabel("|P1(f)|")
+nexttile; plot(senf,senP1);
+title("Single-Sided Amplitude Spectrum of Filtered Sensor Signal")
 xlabel("f (Hz)")
 ylabel("|P1(f)|")
 
 % calculate HR based on reference signal
-[~, reffL] = max(P1(2:200));
+[~, reffL] = max(refP1(2:200));
 reffHR = reffL*Fs/L;
-HR = 60/(1/(reffHR))
+refHR = 60/(1/(reffHR))
+
+% calculate HR based on filtered sensor signal
+[~, senfL] = max(senP1(2:200));
+senfHR = senfL*Fs/L;
+senHR = 60/(1/(senfHR))
