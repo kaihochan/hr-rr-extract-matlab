@@ -16,9 +16,9 @@ Fs = L/30;
 T = 1/Fs;
 
 % bandpass filter for the sensor signal
-% acceptance range 0.16Hz to 0.66Hz
+% acceptance range 0.14Hz to 0.58Hz
 % sampling range 2.5kHz or 0.5kHz, depends on data array
-senFlt = bandpass(senRaw, [0.16 0.66], Fs/2);
+senFlt = bandpass(senRaw, [0.14 0.58], Fs/2);
 
 % show raw data
 figure; tiledlayout(3,1); 
