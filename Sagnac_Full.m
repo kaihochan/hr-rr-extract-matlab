@@ -1,11 +1,11 @@
-myFiles = dir(fullfile('./Data/','*.xlsx'));
-disp('Reading all excel files in ./Data/');
+myFiles = dir(fullfile('./Data/Sagnac','*.xlsx'));
+disp('Reading all excel files in ./Data/Sagnac');
 disp('Heartrate and resperation rate based on REFERENCE SIGNAL');
 for i = 1:length(myFiles)
     baseFileName = myFiles(i).name;
     % load data from excel file
     % col B is sensor data
-    loadPVDF = readtable(append('./Data/',baseFileName),'Range','B:B');
+    loadPVDF = readtable(append('./Data/Sagnac',baseFileName),'Range','B:B');
     PVDFdata = table2array(loadPVDF);
     senRaw = PVDFdata(1:end,1);
     % calculate HR and RR based on readback data
@@ -24,7 +24,7 @@ function bruteforceFindHRFreq
     % load data from excel file
     % col B is sensor data
     % col C is reference data
-    loadPVDF = readtable('./Data/Sit_with_cushion_Test_1_John.xlsx','Range','B:C');
+    loadPVDF = readtable('./Data/Sagnac/Sit_with_cushion_Test_1_John.xlsx','Range','B:C');
     PVDFdata = table2array(loadPVDF);
     senRaw = PVDFdata(1:end,1);
     refRaw = PVDFdata(1:end,2);
@@ -81,12 +81,12 @@ function bruteforceFindRRFreq
     fileID = fopen('./Output/output.txt','w');
     
     % load data from m4a file
-    [refSound, refFs] = audioread('./Data/Sit_without_anything_Test_4_John.m4a');
+    [refSound, refFs] = audioread('./Data/Sagnac/Sit_without_anything_Test_4_John.m4a');
     
     % load data from excel file
     % col B is sensor data
     % col C is reference data
-    loadPVDF = readtable('./Data/Sit_without_anything_Test_4_John.xlsx','Range','B:C');
+    loadPVDF = readtable('./Data/Sagnac/Sit_without_anything_Test_4_John.xlsx','Range','B:C');
     PVDFdata = table2array(loadPVDF);
     senRaw = PVDFdata(1:end,1);
     
