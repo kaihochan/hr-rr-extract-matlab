@@ -5,7 +5,7 @@ for i = 1:length(myFiles)
     baseFileName = myFiles(i).name;
     % load data from excel file
     % col B is sensor data
-    loadPVDF = readtable(append('./Data/Sagnac',baseFileName),'Range','B:B');
+    loadPVDF = readtable(append('./Data/Sagnac/',baseFileName),'Range','B:B');
     PVDFdata = table2array(loadPVDF);
     senRaw = PVDFdata(1:end,1);
     % calculate HR and RR based on readback data
