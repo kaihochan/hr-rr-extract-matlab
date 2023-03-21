@@ -1,12 +1,12 @@
-function [HR,RR,refHR] = MZI_Extraction(PVDFdata,showFigure)
+function [HR,RR,hrFlt,rrFlt] = MZI_Extraction(PVDFdata,showFigure)
 %MZI Extract HR and RR from Mach–Zehnder interferometer
+
     % load data from excel file
     % col 1 is reference signal
     % col 2-4 are phased sensor signal
-    refRaw = PVDFdata(1:end,1);
-    sen1 = PVDFdata(1:end,2);
-    sen2 = PVDFdata(1:end,3);
-    sen3 = PVDFdata(1:end,4);
+    sen1 = PVDFdata(1:end,1);
+    sen2 = PVDFdata(1:end,2);
+    sen3 = PVDFdata(1:end,3);
 
     % length of data array, 30 sec
     L = length(sen1);
@@ -54,13 +54,6 @@ function [HR,RR,refHR] = MZI_Extraction(PVDFdata,showFigure)
     rrP1 = rrP2(1:L/2+1);
     rrP1(2:end-1) = 2*rrP1(2:end-1);
     rrf = Fs*(0:(L/2))/L;
-
-    % FFT on reference sensor signal
-    refhrY = fft(refRaw);
-    refhrP2 = abs(refhrY/L);
-    refhrP1 = refhrP2(1:L/2+1);
-    refhrP1(2:end-1) = 2*refhrP1(2:end-1);
-    refhrf = Fs*(0:(L/2))/L;
     
     % calculate HR based on filtered sensor signal
     [~, hrfL] = max(hrP1(2:200));
@@ -71,11 +64,6 @@ function [HR,RR,refHR] = MZI_Extraction(PVDFdata,showFigure)
     [~, rrfL] = max(rrP1(2:200));
     fRR = rrfL*Fs/L;
     RR = 60/(1/(fRR));
-
-    % calculate HR based on reference sensor signal
-    [~, refhrfL] = max(refhrP1(2:200));
-    reffHR = refhrfL*Fs/L;
-    refHR = 60/(1/(reffHR));
 
     % show raw signal, filtered signal and filtered amplitude spectrum
     if showFigure

@@ -9,7 +9,7 @@ for i = 1:length(myFiles)
     PVDFdata = table2array(loadPVDF);
     senRaw = PVDFdata(1:end,1);
     % calculate HR and RR based on readback data
-    [HR, RR] = Sagnac_Extraction(senRaw,false);
+    [HR,RR,~,~] = Sagnac_Extraction(senRaw,false);
     fprintf('HR= %0.0f\t RR=%0.0f\t %s\n',HR,RR,baseFileName(1:end-5));
 end
 

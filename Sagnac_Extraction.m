@@ -1,4 +1,4 @@
-function [HR,RR] = Sagnac_Extraction(dataArray,showFigure)
+function [HR,RR,hrFlt,rrFlt] = Sagnac_Extraction(dataArray,showFigure)
 %SAGNAC Extract HR and RR from Sagnac interferometer
 
     % length of data array, 30 sec
