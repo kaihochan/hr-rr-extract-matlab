@@ -1,10 +1,10 @@
 function [HR,RR,hrFlt,rrFlt] = Sagnac_Extraction(dataArray,showFigure)
 %SAGNAC Extract HR and RR from Sagnac interferometer
 
-    % length of data array, 30 sec
+    % length of data array
     L = length(dataArray);
     % sample frequency, either 5kHz or 1kHz
-    Fs = L/30;
+    Fs = 5000;
     % sample period
     T = 1/Fs;
     

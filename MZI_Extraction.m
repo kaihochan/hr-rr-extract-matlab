@@ -8,10 +8,10 @@ function [HR,RR,hrFlt,rrFlt] = MZI_Extraction(PVDFdata,showFigure)
     sen2 = PVDFdata(1:end,2);
     sen3 = PVDFdata(1:end,3);
 
-    % length of data array, 30 sec
+    % length of data array
     L = length(sen1);
     % sample frequency, either 5kHz or 1kHz
-    Fs = L/30;
+    Fs = 5000;
     % sample period
     T = 1/Fs;
     
