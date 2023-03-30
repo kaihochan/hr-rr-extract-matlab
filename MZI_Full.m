@@ -1,15 +1,40 @@
 myFiles = dir(fullfile('./Data/MZI','*.xlsx'));
 disp('Reading all excel files in ./Data/MZI');
 disp('Heartrate and resperation rate based on REFERENCE SIGNAL');
+
 for i = 1:length(myFiles)
     baseFileName = myFiles(i).name;
+
     % load data from excel file
     % col B is sensor data
     loadPVDF = readtable(append('./Data/MZI/',baseFileName),'Range','C:E');
     PVDFdata = table2array(loadPVDF);
+
     % calculate HR and RR based on readback data
-    [HR,RR,~,~] = MZI_Extraction(PVDFdata,true);
+    [HR,RR,hrFlt,rrFlt] = MZI_Extraction(PVDFdata);
     fprintf('HR= %0.0f\t RR=%0.0f\t %s\n',HR,RR,baseFileName(1:end-5));
+
+    % show raw signal, filtered signal and filtered amplitude spectrum
+    if false
+        L1 = length(PVDFdata);
+        L2 = length(hrFlt);
+        figure; tiledlayout(3,1,'TileSpacing','tight','Padding','tight'); 
+
+        nexttile; plot(linspace(0,L1/5000,L1),PVDFdata); 
+        title('Sensor Raw Signal');
+        xlabel('s')
+        ylabel('V')
+
+        nexttile; plot(linspace(0,L2/5000,L2),hrFlt); 
+        title('HR Filtered Sensor Signal');
+        xlabel('s')
+        ylabel('V')
+
+        nexttile; plot(linspace(0,L2/5000,L2),rrFlt); 
+        title('RR Filtered Sensor Signal');
+        xlabel('s')
+        ylabel('V')
+    end
 end
 
 clear;

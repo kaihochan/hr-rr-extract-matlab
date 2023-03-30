@@ -1,16 +1,40 @@
 myFiles = dir(fullfile('./Data/Sagnac','*.xlsx'));
 disp('Reading all excel files in ./Data/Sagnac');
 disp('Heartrate and resperation rate based on REFERENCE SIGNAL');
+
 for i = 1:length(myFiles)
     baseFileName = myFiles(i).name;
+
     % load data from excel file
     % col B is sensor data
     loadPVDF = readtable(append('./Data/Sagnac/',baseFileName),'Range','B:B');
     PVDFdata = table2array(loadPVDF);
     senRaw = PVDFdata(1:end,1);
+
     % calculate HR and RR based on readback data
-    [HR,RR,~,~] = Sagnac_Extraction(senRaw,false);
+    [HR,RR,hrFlt,rrFlt] = Sagnac_Extraction(senRaw);
     fprintf('HR= %0.0f\t RR=%0.0f\t %s\n',HR,RR,baseFileName(1:end-5));
+
+    % show raw signal, filtered signal
+    if false
+        L = length(senRaw);
+        figure; tiledlayout(3,1,'TileSpacing','tight','Padding','tight'); 
+
+        nexttile; plot(linspace(0,L/5000,L),senRaw); 
+        title('Sensor Raw Signal');
+        xlabel('s')
+        ylabel('V')
+
+        nexttile; plot(linspace(0,L/5000,L),hrFlt); 
+        title('HR Filtered Sensor Signal');
+        xlabel('s')
+        ylabel('V')
+
+        nexttile; plot(linspace(0,L/5000,L),rrFlt); 
+        title('RR Filtered Sensor Signal');
+        xlabel('s')
+        ylabel('V')
+    end
 end
 
 clear;

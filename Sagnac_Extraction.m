@@ -1,4 +1,4 @@
-function [HR,RR,hrFlt,rrFlt] = Sagnac_Extraction(dataArray,showFigure)
+function [HR,RR,hrFlt,rrFlt] = Sagnac_Extraction(dataArray)
 %SAGNAC Extract HR and RR from Sagnac interferometer
 
     % length of data array
@@ -41,34 +41,4 @@ function [HR,RR,hrFlt,rrFlt] = Sagnac_Extraction(dataArray,showFigure)
     [~, rrfL] = max(rrP1(2:200));
     fRR = rrfL*Fs/L;
     RR = 60/(1/(fRR));
-
-    % show raw signal, filtered signal and filtered amplitude spectrum
-    if showFigure
-        figure; tiledlayout(5,1,'TileSpacing','tight','Padding','tight'); 
-
-        nexttile; plot(0:T:30-T,dataArray); 
-        title('Sensor Raw Signal');
-        xlabel('s')
-        ylabel('V')
-
-        nexttile; plot(0:T:30-T,hrFlt); 
-        title('HR Filtered Sensor Signal');
-        xlabel('s')
-        ylabel('V')
-
-        nexttile; plot(0:T:30-T,rrFlt); 
-        title('RR Filtered Sensor Signal');
-        xlabel('s')
-        ylabel('V')
-
-        nexttile; plot(hrf,hrP1);
-        title('Single-Sided Amplitude Spectrum of HR Filtered Sensor Signal')
-        xlabel('f (Hz)')
-        ylabel('|P1(f)|')
-
-        nexttile; plot(rrf,rrP1);
-        title('Single-Sided Amplitude Spectrum of RR Filtered Sensor Signal')
-        xlabel('f (Hz)')
-        ylabel('|P1(f)|')
-    end
 end

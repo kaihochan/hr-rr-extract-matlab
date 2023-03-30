@@ -1,4 +1,4 @@
-function [HR,RR,hrFlt,rrFlt] = MZI_Extraction(PVDFdata,showFigure)
+function [HR,RR,hrFlt,rrFlt] = MZI_Extraction(PVDFdata)
 %MZI Extract HR and RR from Mach–Zehnder interferometer
 
     % load data from excel file
@@ -64,34 +64,4 @@ function [HR,RR,hrFlt,rrFlt] = MZI_Extraction(PVDFdata,showFigure)
     [~, rrfL] = max(rrP1(2:200));
     fRR = rrfL*Fs/L;
     RR = 60/(1/(fRR));
-
-    % show raw signal, filtered signal and filtered amplitude spectrum
-    if showFigure
-        figure; tiledlayout(5,1,'TileSpacing','tight','Padding','tight'); 
-
-        nexttile; plot(0:T:30-2*T,demodArray); 
-        title('Sensor Raw Signal');
-        xlabel('s')
-        ylabel('V')
-
-        nexttile; plot(0:T:30-2*T,hrFlt); 
-        title('HR Filtered Sensor Signal');
-        xlabel('s')
-        ylabel('V')
-
-        nexttile; plot(0:T:30-2*T,rrFlt); 
-        title('RR Filtered Sensor Signal');
-        xlabel('s')
-        ylabel('V')
-
-        nexttile; plot(hrf,hrP1);
-        title('Single-Sided Amplitude Spectrum of HR Filtered Sensor Signal')
-        xlabel('f (Hz)')
-        ylabel('|P1(f)|')
-
-        nexttile; plot(rrf,rrP1);
-        title('Single-Sided Amplitude Spectrum of RR Filtered Sensor Signal')
-        xlabel('f (Hz)')
-        ylabel('|P1(f)|')
-    end
 end
